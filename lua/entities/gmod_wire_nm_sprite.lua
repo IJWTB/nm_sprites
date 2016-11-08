@@ -19,6 +19,12 @@ AddCSLuaFile()
 local cvarMaxScale     = GetConVar( "wire_nm_sprites_max_scale" )
 local cvarMaxFramerate = GetConVar( "wire_nm_sprites_max_framerate")
 
+-- May need to need some time for the convars to get created, so wait until then
+hook.Add( "InitPostEntity", "gmod_wire_nm_sprite", function()
+	cvarMaxScale     = GetConVar( "wire_nm_sprites_max_scale" )
+	cvarMaxFramerate = GetConVar( "wire_nm_sprites_max_framerate")
+end )
+
 local MIN_SCALE     = 0.01
 local MIN_FRAMERATE = 0
 local MIN_COLOR     = 0
@@ -112,12 +118,12 @@ end
 local triggers = {
 	On    = function( self, value ) self:ToggleSprite( value ) end,
 	Alpha = function( self, value ) self.a = getClampedColor( value ) end,
-	Scale = function( self, value ) self.spr_scale = getClampedScale( value ) end
+	Scale = function( self, value ) self.spr_scale = getClampedScale( value ) end,
 	RGB   = function( self, value )
 		self.r = getClampedColor( value[1] )
 		self.g = getClampedColor( value[2] )
 		self.b = getClampedColor( value[3] )
-	end,
+	end
 }
 
 --[[--------------------------------------------------------------------------
@@ -167,7 +173,7 @@ duplicator.RegisterEntityClass( "nm_sprites", function( ply, data, ... )
 	
 	local params = {
 		getClampedScale( data.spr_scale ),
-		getClampedFramerate( data.spr_framerate )
+		getClampedFramerate( data.spr_framerate ),
 		data.spr_rendermode,
 		data.spr_texture,
 		getClampedColor( data.r ),

@@ -7,10 +7,9 @@ WireToolSetup.open( "nm_sprites", "Sprite", "gmod_wire_nm_sprite", nil, "Sprites
 WireToolSetup.BaseLang()
 WireToolSetup.SetupMax( 25 )
 
-local mode       = "wire_"..TOOL.Mode
+local mode       = TOOL.Mode
 local prefix     =  "tool."..mode.."."
 local prefixlang = "#tool."..mode.."."
-
 TOOL.Information = { "left" }
 
 local cvarFlags        = {FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE}
@@ -24,11 +23,11 @@ if CLIENT then
 	language.Add( prefix.."desc", "Creates a customizable sprite entity." )
 	language.Add( prefix.."left", "Create Sprite Entity" )
 	
-	language.Add( mode.."_scale",       "Scale:" )
-	language.Add( mode.."_rendermode",  "Render Mode:" )
-	language.Add( mode.."_spritecolor", "Color:" )
-	language.Add( mode.."_framerate",   "Framerate:" )
-	language.Add( mode.."_spritetext",  "Texture:" )
+	language.Add( prefix.."scale",       "Scale:" )
+	language.Add( prefix.."rendermode",  "Render Mode:" )
+	language.Add( prefix.."spritecolor", "Color:" )
+	language.Add( prefix.."framerate",   "Framerate:" )
+	language.Add( prefix.."spritetext",  "Texture:" )
 	
 	TOOL.ClientConVar = {
 		model          = "models/beer/wiremod/watersensor_mini.mdl",
@@ -106,12 +105,12 @@ if CLIENT then
 		panel:AddControl( "ListBox", params )
 		
 		-- Set Framerate and Scale of the sprite
-		panel:NumSlider( prefixlang.."_framerate", mode.."_spr_framerate", 0,    cvarMaxFramerate:GetInt(), 0 )
-		panel:NumSlider( prefixlang.."_scale",     mode.."_spr_scale",     0.01, cvarMaxScale:GetInt(),     2 )
+		panel:NumSlider( prefixlang.."framerate", mode.."_spr_framerate", 0,    cvarMaxFramerate:GetInt(), 0 )
+		panel:NumSlider( prefixlang.."scale",     mode.."_spr_scale",     0.01, cvarMaxScale:GetInt(),     2 )
 		
 		-- Sets the render mode of the sprite
 		panel:AddControl( "ComboBox", {
-				Label = prefixlang.."_rendermode",
+				Label = prefixlang.."rendermode",
 				Options = {
 					["World Glow"] = { [mode.."_spr_rendermode"] = 9 },
 					Glow =           { [mode.."_spr_rendermode"] = 3 }
@@ -121,7 +120,7 @@ if CLIENT then
 		
 		-- Adds a color mixer with alpha enabled.
 		panel:AddControl( "Color", {
-				Label		= prefixlang.."_spritecolor",
+				Label		= prefixlang.."spritecolor",
 				Red			= mode.."_r",
 				Green		= mode.."_g",
 				Blue		= mode.."_b",
